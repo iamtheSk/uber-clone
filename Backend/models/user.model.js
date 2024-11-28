@@ -37,7 +37,9 @@ userSchema.statics.hashPassword = async function (password) {
 
 // After Creating using db id jwt sign will happen
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: "24h",
+  }); //Expires in 24 hours
   return token;
 };
 

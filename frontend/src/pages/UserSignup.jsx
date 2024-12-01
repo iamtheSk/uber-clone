@@ -1,35 +1,46 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserDataContext } from "../context/UserContext";
 
 const UserSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firtname, setfirtname] = useState("");
   const [lastname, setlastname] = useState("");
-  const [captainData, setcaptainData] = useState({
-    email: "",
-    password: "",
-    firtname: "",
-    lastname: "",
-  });
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+
+  const { user, setUser } = useContext(UserDataContext);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    setcaptainData({
+    const newUser = {
+      fullname: {
+        firstname: firtname,
+        lastname: lastname,
+      },
       email: email,
       password: password,
-      firtname: firtname,
-      lastname: lastname,
-    });
+    };
 
-    console.log(captainData);
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/register`,
+      newUser
+    );
 
-    // setEmail("");
-    // setPassword("");
-    // setfirtname("");
-    // setlastname("");
+    console.log(response);
+
+    if (response.status === 200 || response.status === 201) {
+      const data = response.data;
+
+      setUser(data.user);
+      localStorage.setItem("token", JSON.stringify(data.token));
+      navigate("/home");
+    }
   };
+
   return (
     <div>
       <div className="p-7 w-full h-screen flex flex-col justify-between">
@@ -85,7 +96,7 @@ const UserSignup = () => {
             <button
               type="submit"
               className="bg-black text-white font-semibold mb-4 rounded-lg w-full px-3 py-3">
-              Sign up
+              Create account
             </button>
 
             <p className="text-center">

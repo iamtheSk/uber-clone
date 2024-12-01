@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CaptainSignup = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +12,8 @@ const CaptainSignup = () => {
     firtname: "",
     lastname: "",
   });
+
+  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -40,7 +42,9 @@ const CaptainSignup = () => {
             className="w-32 mb-8"
           />
           <form onSubmit={submitHandler}>
-            <h3 className="text-lg  font-medium  mb-2">What's your Name</h3>
+            <h3 className="text-lg  font-medium  mb-2">
+              What's Our Captains Name
+            </h3>
             <div className="flex items-center justify-center gap-4 mb-7">
               <input
                 type="text"
@@ -60,7 +64,9 @@ const CaptainSignup = () => {
               />
             </div>
 
-            <h3 className="text-lg font-medium mb-2">What's your Email</h3>
+            <h3 className="text-lg font-medium mb-2">
+              What's Our Captains Email
+            </h3>
 
             <input
               type="email"

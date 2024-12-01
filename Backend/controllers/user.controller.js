@@ -75,15 +75,20 @@ module.exports.getProfile = async (req, res, next) => {
 
 module.exports.logoutUser = async (req, res, next) => {
   res.clearCookie("token");
-  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+  try {
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
 
-  await blacklistTokenModel.create({
-    token,
-  });
+    if (!token) {
+      return res.status(401).json({ error: "No token provided" });
+    }
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ error: err.message });
+  }
 
   // if (!token) {
   //   return res.status(401).json({ error: "No token provided" });
   // }
-
-  res.status(200).json({ message: "Logged out successfully" });
 };

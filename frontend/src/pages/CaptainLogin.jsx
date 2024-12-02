@@ -1,21 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [captainData, setcaptainData] = useState({
-    email: "",
-    password: "",
-  });
+
+  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    setcaptainData({
+    const captain = {
       email: email,
       password: password,
-    });
+    };
 
     console.log(captainData);
 

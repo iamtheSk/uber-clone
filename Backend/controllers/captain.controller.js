@@ -4,8 +4,6 @@ const { validationResult } = require("express-validator");
 const blacklistTokenModel = require("../models/blacklistToken.model");
 
 module.exports.registerCaptain = async (req, res, next) => {
-  console.log("Raw Request Body:", req.body);
-
   try {
     const errors = validationResult(req);
 
@@ -37,6 +35,9 @@ module.exports.registerCaptain = async (req, res, next) => {
         vehicleType: vehicle.vehicleType, // Fixed typo
       },
     });
+
+    console.log("Captain", captain);
+
     const token = captain.generateAuthToken();
 
     res.status(201).json({
